@@ -94,7 +94,6 @@ AllowedIPs = 192.0.2.2/32
 
 [Peer]
 # Name = home-server.example-vpn.dev
-Endpoint = home-server.example-vpn.dev:51820
 PublicKey = <public key for home-server.example-vpn.dev>
 AllowedIPs = 192.0.2.3/32
 
@@ -182,7 +181,6 @@ DNS = 1.1.1.1
 ```ini
 [Peer]
 # Name = home-server.example-vpn.dev
-Endpoint = home-server.example-vpn.dev:51820
 PublicKey = <public key for home-server.example-vpn.dev>
 AllowedIPs = 192.0.2.3/32
 ```
