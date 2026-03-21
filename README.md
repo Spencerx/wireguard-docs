@@ -618,20 +618,22 @@ The config file name must be in the format `${name of the new WireGuard interfac
 
 Config files can opt to use the limited set of `wg` config options, or the more extended `wg-quick` options, depending on what command is preferred to start WireGuard.  These docs recommend sticking to `wg-quick` as it provides a more powerful and user-friendly config experience.
 
+The core `wg(8)` config format covers peer/session state such as `PrivateKey`, `ListenPort`, `FwMark`, `PublicKey`, `PresharedKey`, `AllowedIPs`, `Endpoint`, and `PersistentKeepalive`. The convenience keys `Address`, `DNS`, `Table`, `MTU`, `PreUp`, `PostUp`, `PreDown`, and `PostDown` below are `wg-quick(8)` extensions. See [wg(8)](https://man7.org/linux/man-pages/man8/wg.8.html) and [wg-quick(8)](https://man7.org/linux/man-pages/man8/wg-quick.8.html).
+
 **Jump to definition:**
 
 ¶ <a href="#Interface">`[Interface]`</a>  
 ¶ <a href="#-Name">`# Name = node1.example.tld`</a>  
-¶ <a href="#Address">`Address = 192.0.2.3/32`</a>  
+¶ <a href="#Address">`Address = 192.0.2.3/32`</a> (wg-quick only)<br/>
 ¶ <a href="#ListenPort">`ListenPort = 51820`</a>  
 ¶ <a href="#PrivateKey">`PrivateKey = localPrivateKeyAbcAbcAbc=`</a>  
-¶ <a href="#DNS-2">`DNS = 1.1.1.1,8.8.8.8`</a>  
-¶ <a href="#Table">`Table = 12345`</a>  
-¶ <a href="#MTU">`MTU = 1420`</a>  
-¶ <a href="#PreUp">`PreUp = /bin/example arg1 arg2 %i`</a>  
-¶ <a href="#PostUp">`PostUp = /bin/example arg1 arg2 %i`</a>  
-¶ <a href="#PreDown">`PreDown = /bin/example arg1 arg2 %i`</a>  
-¶ <a href="#PostDown">`PostDown = /bin/example arg1 arg2 %i`</a>  
+¶ <a href="#DNS-2">`DNS = 1.1.1.1,8.8.8.8`</a> (wg-quick only)<br/>
+¶ <a href="#Table">`Table = 12345`</a> (wg-quick only)<br/>
+¶ <a href="#MTU">`MTU = 1420`</a> (wg-quick only)<br/>
+¶ <a href="#PreUp">`PreUp = /bin/example arg1 arg2 %i`</a> (wg-quick only)<br/>
+¶ <a href="#PostUp">`PostUp = /bin/example arg1 arg2 %i`</a> (wg-quick only)<br/>
+¶ <a href="#PreDown">`PreDown = /bin/example arg1 arg2 %i`</a> (wg-quick only)<br/>
+¶ <a href="#PostDown">`PostDown = /bin/example arg1 arg2 %i`</a> (wg-quick only)<br/>
 
 
 ¶ <a href="#Peer">`[Peer]`</a>  
