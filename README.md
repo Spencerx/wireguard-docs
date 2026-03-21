@@ -280,6 +280,8 @@ Each client only needs to define the publicly accessible servers/peers in its co
 
 In summary: only direct connections between clients should be configured, any connections that need to be bounced should not be defined as peers, as they should head to the bounce server first and be routed from there back down the vpn to the correct client.
 
+**Important: traffic bounced through a relay server is not end-to-end encrypted between the two NAT-ed peers.** The relay server decrypts incoming traffic from one peer and re-encrypts it with the destination peer's key before forwarding. This means the relay server can see the plaintext VPN traffic passing through it. Each hop (A↔Relay, Relay↔B) is independently encrypted, but the relay acts as a trusted intermediary. If end-to-end encryption between NAT-ed peers is required, consider using an application-level encryption layer (e.g. TLS) on top of WireGuard, or a solution like Tailscale's DERP relays which forward opaque encrypted packets without decrypting them.
+
 ### How WireGuard Routes Packets
 
 More complex topologies are definitely achievable, but these are the basic routing methods used in typical WireGuard setups:
@@ -827,7 +829,7 @@ This option can appear multiple times, as with <a href="#PreUp">PreUp</a>
 
 Defines the VPN settings for a remote peer capable of routing traffic for one or more addresses (itself and/or other peers). Peers can be either a public bounce server that relays traffic to other peers, or a directly accessible client via LAN/internet that is not behind a NAT and only routes traffic for itself.
 
-All clients must be defined as peers on the public bounce server. Simple clients that only route traffic for themselves, only need to define peers for the public relay, and any other nodes directly accessible.  Nodes that are behind separate NATs should _not_ be defined as peers outside of the public server config, as no direct route is available between separate NATs. Instead, nodes behind NATs should only define the public relay servers and other public clients as their peers, and should specify `AllowedIPs = 192.0.2.1/24` on the public server that accept routes and bounce traffic for the VPN subnet to the remote NAT-ed peers.
+All clients must be defined as peers on the public bounce server. Simple clients that only route traffic for themselves, only need to define peers for the public relay, and any other nodes directly accessible.  Nodes that are behind separate NATs should _not_ be defined as peers outside of the public server config, as no direct route is available between separate NATs. Instead, nodes behind NATs should only define the public relay servers and other public clients as their peers, and should specify `AllowedIPs = 192.0.2.1/24` on the public server that accepts routes and bounces traffic for the VPN subnet to the remote NAT-ed peers.  Traffic destined for a NAT-ed peer that isn't directly defined will match the relay server's broad `AllowedIPs` range, be encrypted to the relay server, and then be decrypted and re-encrypted by the relay for delivery to the final destination peer (see the [security note above](#how-public-relay-servers-work) about relay traffic not being end-to-end encrypted).
 
 In summary, all nodes must be defined on the main bounce server.  On client servers, only peers that are directly accessible from a node should be defined as peers of that node, any peers that must be relayed by a bounce server should be left out and will be handled by the relay server's catchall route.
 
